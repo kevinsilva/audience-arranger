@@ -100,23 +100,16 @@ function addDragOverListener(audienceElement) {
 
 function onDrop(event, handleDrag, handleDrop, audienceElement) {
   updateHandle(event, handleDrop);
-  const handleDragIndex = handleDrag.index;
-  const handleDropIndex = handleDrop.index;
-  const handleDragNextSibling = handleDrag.element.nextSibling;
+  const savedDragNextSibling = handleDrag.element.nextSibling;
 
-  if (handleDragIndex > handleDropIndex) {
-    audienceElement.insertBefore(handleDrag.element, handleDrop.element);
-    audienceElement.insertBefore(handleDrop.element, handleDragNextSibling);
-  } else {
-    audienceElement.insertBefore(
-      handleDrag.element,
-      handleDrop.element.nextSibling
-    );
-    audienceElement.insertBefore(handleDrop.element, handleDragNextSibling);
-  }
+  audienceElement.insertBefore(
+    handleDrag.element,
+    handleDrop.element.nextSibling
+  );
+  audienceElement.insertBefore(handleDrop.element, savedDragNextSibling);
 
-  handleDrag.element.dataset.index = handleDropIndex;
-  handleDrop.element.dataset.index = handleDragIndex;
+  handleDrag.element.dataset.index = handleDrop.index;
+  handleDrop.element.dataset.index = handleDrag.index;
 }
 
 function addDropListener(audienceElement, handleDrag, handleDrop) {
