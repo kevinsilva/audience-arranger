@@ -18,12 +18,12 @@ const STATE = {
   },
   handlers: {
     drag: {
-      name: '',
       element: null,
+      index: null,
     },
     drop: {
-      name: '',
       element: null,
+      index: null,
     },
   },
   fileInputID: 'file-input',
@@ -32,29 +32,31 @@ const STATE = {
 
 // AUDIENCE
 
-function getAudicenceElement(audienceID) {
+function getAudienceElement(audienceID) {
   return document.getElementById(audienceID);
 }
 
 function fillAudience(audienceElement, namesArray) {
-  for (const name of namesArray) {
+  for (const [index, name] of namesArray.entries()) {
     const nameElement = document.createElement('div');
 
     nameElement.textContent = name;
     nameElement.setAttribute('draggable', true);
+    nameElement.setAttribute('data-index', index);
     audienceElement.appendChild(nameElement);
   }
 }
-
 function fillEmptyBlocks(audienceElement, columns) {
-  if (audienceElement.children.length % columns !== 0) {
-    const numberOfEmptyBlocks =
-      columns - (audienceElement.children.length % columns);
+  const audienceLength = audienceElement.children.length;
+
+  if (audienceLength % columns !== 0) {
+    const numberOfEmptyBlocks = columns - (audienceLength % columns);
 
     for (let i = 0; i < numberOfEmptyBlocks; i++) {
       const emptyBlock = document.createElement('div');
       emptyBlock.textContent = '';
       emptyBlock.setAttribute('draggable', true);
+      emptyBlock.setAttribute('data-index', audienceLength + i);
       audienceElement.appendChild(emptyBlock);
     }
   }
@@ -67,7 +69,7 @@ function renderAudience(audienceElement, namesArray, numberOfColumns) {
 }
 
 function setupAudience(state) {
-  const audience = getAudicenceElement(state.audience.id);
+  const audience = getAudienceElement(state.audience.id);
   renderAudience(audience, state.names, state.audience.numberOfColumns);
 
   return audience;
@@ -75,9 +77,13 @@ function setupAudience(state) {
 
 // EVENT LISTENERS
 
+function updateHandle(event, handleElement) {
+  handleElement.element = event.target;
+  handleElement.index = event.target.dataset.index;
+}
+
 function onDrag(event, handleDrag) {
-  handleDrag.name = event.target.textContent;
-  handleDrag.element = event.target;
+  updateHandle(event, handleDrag);
 }
 
 function addDragStartListener(audienceElement, handleDrag) {
@@ -92,22 +98,30 @@ function addDragOverListener(audienceElement) {
   });
 }
 
-function onDrop(event, handleDrag, handleDrop) {
-  handleDrop.name = event.target.textContent;
-  handleDrop.element = event.target;
+function onDrop(event, handleDrag, handleDrop, audienceElement) {
+  updateHandle(event, handleDrop);
+  const handleDragIndex = handleDrag.index;
+  const handleDropIndex = handleDrop.index;
+  const handleDragNextSibling = handleDrag.element.nextSibling;
 
-  if (handleDrop.name === '') {
-    handleDrop.element.textContent = handleDrag.name;
-    handleDrag.element.textContent = '';
+  if (handleDragIndex > handleDropIndex) {
+    audienceElement.insertBefore(handleDrag.element, handleDrop.element);
+    audienceElement.insertBefore(handleDrop.element, handleDragNextSibling);
   } else {
-    handleDrop.element.textContent = handleDrag.name;
-    handleDrag.element.textContent = handleDrop.name;
+    audienceElement.insertBefore(
+      handleDrag.element,
+      handleDrop.element.nextSibling
+    );
+    audienceElement.insertBefore(handleDrop.element, handleDragNextSibling);
   }
+
+  handleDrag.element.dataset.index = handleDropIndex;
+  handleDrop.element.dataset.index = handleDragIndex;
 }
 
 function addDropListener(audienceElement, handleDrag, handleDrop) {
   audienceElement.addEventListener('drop', (event) => {
-    onDrop(event, handleDrag, handleDrop);
+    onDrop(event, handleDrag, handleDrop, audienceElement);
   });
 }
 
