@@ -30,18 +30,7 @@ const STATE = {
   fileOutputID: 'file-output',
 };
 
-function updateStateNames(state) {
-  const nameElements = document.querySelectorAll('[data-index]');
-  state.names = Array.from(nameElements).map(
-    (nameElement) => nameElement.textContent
-  );
-}
-
 // AUDIENCE
-
-function getAudienceElement(audienceID) {
-  return document.getElementById(audienceID);
-}
 
 function fillAudience(audienceElement, namesArray) {
   for (const [index, name] of namesArray.entries()) {
@@ -76,7 +65,7 @@ function renderAudience(audienceElement, namesArray, numberOfColumns) {
 }
 
 function setupAudience(state) {
-  const audience = getAudienceElement(state.audience.id);
+  const audience = getElementById(state.audience.id);
   renderAudience(audience, state.names, state.audience.numberOfColumns);
   updateStateNames(state);
   return audience;
@@ -132,15 +121,11 @@ function addEventListeners(audienceElement, state) {
   addDragStartListener(audienceElement, state);
   addDragOverListener(audienceElement);
   addDropListener(audienceElement, state);
-  addFileUploadListener(getFileUploadInput(state.fileInputID), state);
-  addFileDownloadListener(getFileOutputButton(state.fileOutputID), state);
+  addFileUploadListener(getElementById(state.fileInputID), state);
+  addFileDownloadListener(getElementById(state.fileOutputID), state);
 }
 
 // FILE UPLOAD
-
-function getFileUploadInput(inputID) {
-  return document.getElementById(inputID);
-}
 
 function onFileUpload(file, state) {
   const reader = new FileReader();
@@ -164,10 +149,6 @@ function addFileUploadListener(fileInputElement, state) {
 
 // FILE DOWNLOAD
 
-function getFileOutputButton(buttonID) {
-  return document.getElementById(buttonID);
-}
-
 function onFileDownload(state) {
   let content = '# Audience\n\n';
 
@@ -189,6 +170,21 @@ function addFileDownloadListener(fileOutputElement, state) {
   fileOutputElement.addEventListener('click', function () {
     onFileDownload(state);
   });
+}
+
+// UTILS
+
+function getElementById(id) {
+  const element = document.getElementById(id);
+  if (!element) throw new Error(`Element with id: ${id} was not found`);
+  return element;
+}
+
+function updateStateNames(state) {
+  const nameElements = document.querySelectorAll('[data-index]');
+  state.names = Array.from(nameElements).map(
+    (nameElement) => nameElement.textContent
+  );
 }
 
 // INIT
