@@ -30,6 +30,13 @@ const STATE = {
   fileOutputID: 'file-output',
 };
 
+function updateStateNames(state) {
+  const nameElements = document.querySelectorAll('[data-index]');
+  state.names = Array.from(nameElements).map(
+    (nameElement) => nameElement.textContent
+  );
+}
+
 // AUDIENCE
 
 function getAudienceElement(audienceID) {
@@ -71,24 +78,24 @@ function renderAudience(audienceElement, namesArray, numberOfColumns) {
 function setupAudience(state) {
   const audience = getAudienceElement(state.audience.id);
   renderAudience(audience, state.names, state.audience.numberOfColumns);
-
+  updateStateNames(state);
   return audience;
 }
 
 // EVENT LISTENERS
 
-function updateHandle(event, handleElement) {
+function updateStateHandle(event, handleElement) {
   handleElement.element = event.target;
   handleElement.index = event.target.dataset.index;
 }
 
-function onDrag(event, handleDrag) {
-  updateHandle(event, handleDrag);
+function onDrag(event, state) {
+  updateStateHandle(event, state.handlers.drag);
 }
 
-function addDragStartListener(audienceElement, handleDrag) {
+function addDragStartListener(audienceElement, state) {
   audienceElement.addEventListener('dragstart', (event) => {
-    onDrag(event, handleDrag);
+    onDrag(event, state);
   });
 }
 
@@ -98,8 +105,10 @@ function addDragOverListener(audienceElement) {
   });
 }
 
-function onDrop(event, handleDrag, handleDrop, audienceElement) {
-  updateHandle(event, handleDrop);
+function onDrop(event, audienceElement, state) {
+  const handleDrag = state.handlers.drag;
+  const handleDrop = state.handlers.drop;
+  updateStateHandle(event, handleDrop);
   const savedDragNextSibling = handleDrag.element.nextSibling;
 
   audienceElement.insertBefore(
@@ -110,18 +119,19 @@ function onDrop(event, handleDrag, handleDrop, audienceElement) {
 
   handleDrag.element.dataset.index = handleDrop.index;
   handleDrop.element.dataset.index = handleDrag.index;
+  updateStateNames(state);
 }
 
-function addDropListener(audienceElement, handleDrag, handleDrop) {
+function addDropListener(audienceElement, state) {
   audienceElement.addEventListener('drop', (event) => {
-    onDrop(event, handleDrag, handleDrop, audienceElement);
+    onDrop(event, audienceElement, state);
   });
 }
 
 function addEventListeners(audienceElement, state) {
-  addDragStartListener(audienceElement, state.handlers.drag);
+  addDragStartListener(audienceElement, state);
   addDragOverListener(audienceElement);
-  addDropListener(audienceElement, state.handlers.drag, state.handlers.drop);
+  addDropListener(audienceElement, state);
   addFileUploadListener(getFileUploadInput(state.fileInputID), state);
   addFileDownloadListener(getFileOutputButton(state.fileOutputID), state);
 }
@@ -138,8 +148,7 @@ function onFileUpload(file, state) {
   reader.onload = function (event) {
     const content = event.target.result;
     const clearedContent = content.replace(/[\r\n]/g, '');
-
-    state.names = clearedContent.split(',');
+    state.names = clearedContent.split('- ').slice(1);
 
     setupAudience(state);
   };
@@ -160,13 +169,18 @@ function getFileOutputButton(buttonID) {
 }
 
 function onFileDownload(state) {
-  const content = state.names.join(',');
-  const blob = new Blob([content], { type: 'text/csv;charset=utf-8,' });
+  let content = '# Audience\n\n';
+
+  state.names.forEach((name) => {
+    content += `- ${name}\n`;
+  });
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8,' });
   const objUrl = URL.createObjectURL(blob);
   const link = document.createElement('a');
 
   link.setAttribute('href', objUrl);
-  link.setAttribute('download', 'audience.csv');
+  link.setAttribute('download', 'audience.txt');
   link.click();
   document.querySelector('body').append(link);
 }
