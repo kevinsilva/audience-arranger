@@ -17,14 +17,7 @@
 
 ## Part 3
 
-- export updated list to file
-
-### TODO
-
-Change to dataset
-https://w3schools.com/html/html5_draganddrop.asp
-
-Change to TXT
+- export updated list to files
 
 ##### Introdução
 
@@ -129,10 +122,3 @@ Quando o utilizador clica no botão copy-to-clipboard, os nomes VIP da grelha s�
 ##### Descarregar como um ficheiro de texto simples
 
 Quando o utilizador clica no botão de descarga, o navegador da web ativa a descarga de um ficheiro de texto simples com a lista de nomes como o conteúdo. O nome do ficheiro deve ser "vip-list.txt".
-
-### TODO
-
-- refactorar onFileUpload
-- add UI
-- adicionar drop file
-- localStorage

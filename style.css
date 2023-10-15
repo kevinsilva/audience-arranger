@@ -1,24 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&family=Rubik+Mono+One&display=swap');
+
+:root {
+  --main-bg-color: rgba(9, 20, 26, 1);
+  --secondary-bg-color: rgba(169, 94, 112, 1);
+  --tertiary-bg-color: rgba(232, 103, 138, 1);
+  --primary-text-color: rgba(255, 255, 255, 1);
+  --complementary-color: rgba(41, 48, 61, 1);
+  --alternative-color: rgba(65, 70, 82, 1);
+}
+
 body {
-  font-family: sans-serif;
-  background-color: white;
+  font-family: 'Roboto Mono', monospace;
+  background-color: var(--main-bg-color);
+}
+
+.title {
+  font-family: 'Rubik Mono One', monospace;
+  letter-spacing: -4px;
+  font-size: 40px;
+  color: var(--primary-text-color);
+  text-align: center;
 }
 
 #audience {
-  margin-top: 100px;
+  margin: 50px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   text-align: center;
-  border: 1px dashed black;
+  border: 1px dashed var(--secondary-bg-color);
   gap: 20px;
   padding: 20px;
+  min-width: 500px;
 }
 
 #audience div {
-  color: rgb(75 85 99);
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--tertiary-bg-color);
   padding: 10px;
   cursor: pointer;
-  border: 1px solid black;
-  /* box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); */
-  border-radius: 0.125rem;
+  border: 1px solid var(--secondary-bg-color);
+  text-transform: uppercase;
+}
 
+#audience .dragged {
+  color: var(--alternative-color);
+  background-color: var(--tertiary-bg-color);
+}
+
+input[type='file'] {
+  display: none;
+}
+
+.input-label,
+#file-output {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  background-color: var(--complementary-color);
+  border: none;
+  border-radius: 1px;
+  padding: 8px;
+  color: var(--primary-text-color);
+  cursor: pointer;
+}
+
+.input-label {
+  padding: 8px 2px 8px 12px;
+  margin: 0 10px 0 50px;
+}
+
+.input-label:hover,
+#file-output:hover {
+  background-color: var(--alternative-color);
+}
+
+@media (max-width: 575px) {
+  #audience {
+    grid-template-columns: repeat(2, 1fr);
+    min-width: 200px;
+  }
+
+  #audience div {
+    min-height: 20px;
+  }
 }
