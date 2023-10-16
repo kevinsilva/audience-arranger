@@ -92,6 +92,21 @@ When uploading a TXT file, adhere to the demonstrated format in the provided ass
 >
 > The `fillEmptyBlocks` function will automatically populate the remaining seats in the row.
 
+## Development
+
+Change into directory on the terminal and install with npm.
+
+```bash
+cd audience-arranger
+npm install
+```
+
+To run the application.
+
+```bash
+  npm run dev
+```
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/);
