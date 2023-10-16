@@ -1,0 +1,21 @@
+{
+  "name": "audience-arranger",
+  "version": "1.0.0",
+  "description": "<p align=\"center\"><img src=\"./assets/screenshot.jpg\" width=\"1000\"></p>",
+  "main": "app.js",
+  "scripts": {
+    "dev": "live-server",
+    "lint": "eslint ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.51.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-n": "^16.2.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "live-server": "^1.2.2"
+  }
+}
