@@ -11,7 +11,7 @@ The Audience Arranger is a JavaScript application designed to manage and display
 
 ## Implementation Details
 
-This application allows users to upload a list of names that can be arranged in a visual representation of an audience. The new arrangement can be downloaded into a file.
+This application allows users to upload a list of names that can be arranged in a visual representation of an audience. The new arrangement can be downloaded into a file and it is automatically saved to a local storage for improved user experience.
 
 ### Modular Codebase
 
