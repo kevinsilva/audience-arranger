@@ -1,4 +1,4 @@
-function onFileDownload(state) {
+function onFileDownload (state) {
   let content = '# Audience\n\n';
 
   state.names.forEach((name) => {
@@ -15,7 +15,7 @@ function onFileDownload(state) {
   document.querySelector('body').append(link);
 }
 
-function addFileDownloadListener(fileOutputElement, state) {
+function addFileDownloadListener (fileOutputElement, state) {
   fileOutputElement.addEventListener('click', function () {
     onFileDownload(state);
   });

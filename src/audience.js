@@ -1,10 +1,10 @@
 import {
   getElementById,
   updateStateNames,
-  loadFromLocalStorage,
+  loadFromLocalStorage
 } from './utils.js';
 
-function fillAudience(audienceElement, namesArray) {
+function fillAudience (audienceElement, namesArray) {
   for (const [index, name] of namesArray.entries()) {
     const nameElement = document.createElement('div');
 
@@ -14,7 +14,7 @@ function fillAudience(audienceElement, namesArray) {
     audienceElement.appendChild(nameElement);
   }
 }
-function fillEmptyBlocks(audienceElement, columns) {
+function fillEmptyBlocks (audienceElement, columns) {
   const audienceLength = audienceElement.children.length;
 
   if (audienceLength % columns !== 0) {
@@ -30,13 +30,13 @@ function fillEmptyBlocks(audienceElement, columns) {
   }
 }
 
-function renderAudience(audienceElement, namesArray, numberOfColumns) {
+function renderAudience (audienceElement, namesArray, numberOfColumns) {
   audienceElement.innerHTML = '';
   fillAudience(audienceElement, namesArray);
   fillEmptyBlocks(audienceElement, numberOfColumns);
 }
 
-function setupAudience(state) {
+function setupAudience (state) {
   const audience = getElementById(state.audience.id);
   loadFromLocalStorage(state);
   renderAudience(audience, state.names, state.audience.numberOfColumns);

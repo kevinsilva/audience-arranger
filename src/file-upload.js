@@ -1,7 +1,7 @@
 import { saveToLocalStorage } from './utils.js';
 import { setupAudience } from './audience.js';
 
-function onFileUpload(file, state) {
+function onFileUpload (file, state) {
   const reader = new FileReader();
 
   reader.onload = function (event) {
@@ -16,7 +16,7 @@ function onFileUpload(file, state) {
   reader.readAsText(file);
 }
 
-function addFileUploadListener(fileInputElement, state) {
+function addFileUploadListener (fileInputElement, state) {
   fileInputElement.addEventListener('change', function (event) {
     onFileUpload(event.target.files[0], state);
   });

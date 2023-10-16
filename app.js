@@ -13,27 +13,27 @@ const STATE = {
     'Mariana',
     'Mariellyn',
     'Renato',
-    'Sara',
+    'Sara'
   ],
   audience: {
     id: 'audience',
-    numberOfColumns: 5,
+    numberOfColumns: 5
   },
   handlers: {
     drag: {
       element: null,
-      index: null,
+      index: null
     },
     drop: {
       element: null,
-      index: null,
-    },
+      index: null
+    }
   },
   fileInputID: 'file-input',
-  fileOutputID: 'file-output',
+  fileOutputID: 'file-output'
 };
 
-function init(state) {
+function init (state) {
   const audienceElement = setupAudience(state);
   addEventListeners(audienceElement, state);
 }
