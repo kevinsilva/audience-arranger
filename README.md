@@ -1,53 +1,96 @@
 # Audience Arranger
 
-A JavaScript desktop version of the classic hangman game where the player has 6 attempts to guess the hidden word.
+<p align="center"><img src="./assets/screenshot.jpg" width="1000"></p>
+
+<div align="center">
+
+<a href="">[![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-success?style=flat-square&logo=codesandbox)]()</a>
+
+</div>
+The Audience Arranger is a JavaScript application designed to manage and display an audience list. It features drag-and-drop reordering of audience members, file upload and download functionalities.
 
 ## Implementation Details
 
-This JavaScript game involves guessing a word, letter by letter. Players are able to type keyboard inputs for the letters and a visual representation of a hangman updates with each wrong guess.
+This application allows users to upload a list of names that can be arranged in a visual representation of an audience. The new arrangement can be downloaded into a file.
 
-The code is organized through different ES6 modules for utility functions, word-related operations, game logic and rendering. The game state is managed through an `STATE` object. The `ìnit` function initializes the game state, renders the game screen and adds event listeners for key presses.
+### Modular Codebase
 
-The clean interface is designed using [Tailwind CSS](https://tailwindcss.com/). The game fetches a list of words from an external [Random Word API](https://random-word-api.herokuapp.com/all) using asynchronous requests. In case of an error, a default set of words is used.
+To implement a well-organized and modular codebase, the application uses ES6 modules with a clear separation of concerns.
+
+- **audience.js**: this module handles the management and rendering of the audience list.
+- **drag-drop.js**: encapsulates drag-and-drop functionality.
+- **file-upload.js**: uploads and updates of the application state.
+- **file-download.js**: manages generation and download of the audience list
+
+### Initialization
+
+The `init` function receives the `STATE` object, initializes the event-listeners and oversees the rendering of the audience.
 
 ## Usage
 
-Import the `init` function from module from `./src/app.js`.
+### Getting Started
 
-```js
-<script type="module">import {init} from './src/app.js' init();</script>
+To integrate the Audience Arranger into your project, import the `init` function from the `app.js` module or invoke it directly.
+
+```javascript
+<script type="module">import {init} from './app.js'; init(STATE);</script>
 ```
 
-Access the DOM references on utilities.js.
+### Customization
+
+Customize the application to your needs by changing the number of columns and DOM element IDs for the audience, file input, and file output. The `STATE` object provides a clear structure for configuration.
 
 ```js
-const elementsIDS = {
-  dashedID: 'dashed',
-  wrongsID: 'wrongs',
-  restartID: 'restart',
-  headID: 'head',
-  torsoID: 'torso',
-  leftArmID: 'left-arm',
-  rightArmID: 'right-arm',
-  leftLegID: 'left-leg',
-  rightLegID: 'right-leg',
+const STATE = {
+  names: [
+    'Ana',
+    'Beatriz',
+    'Florentino',
+    'Guilherme',
+    'João',
+    'Kevin',
+    'Mara',
+    'Mariana',
+    'Mariellyn',
+    'Renato',
+    'Sara',
+  ],
+  audience: {
+    id: 'audience',
+    numberOfColumns: 5,
+  },
+  handlers: {
+    drag: {
+      element: null,
+      index: null,
+    },
+    drop: {
+      element: null,
+      index: null,
+    },
+  },
+  fileInputID: 'file-input',
+  fileOutputID: 'file-output',
 };
 ```
 
-## Development
+### File Format
 
-Change into directory on the terminal and install with npm.
+When uploading a TXT file, adhere to the demonstrated format in the provided assets. Empty name entries correspond to unoccupied seats.
 
-```bash
-cd hangman-game
-npm install
+```plaintext
+# BEATLES
+
+- Paul
+- George
+-
+- John
+- Ringo
 ```
 
-To run the application.
-
-```bash
-  npm run dev
-```
+> **Note:**
+>
+> The `fillEmptyBlocks` function will automatically populate the remaining seats in the row.
 
 ## License
 
