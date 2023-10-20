@@ -1,4 +1,4 @@
-function onFileDownload (state) {
+function onFileDownload(state) {
   let content = '# Audience\n\n';
 
   state.names.forEach((name) => {
@@ -12,10 +12,9 @@ function onFileDownload (state) {
   link.setAttribute('href', objUrl);
   link.setAttribute('download', 'audience.txt');
   link.click();
-  document.querySelector('body').append(link);
 }
 
-function addFileDownloadListener (fileOutputElement, state) {
+function addFileDownloadListener(fileOutputElement, state) {
   fileOutputElement.addEventListener('click', function () {
     onFileDownload(state);
   });
